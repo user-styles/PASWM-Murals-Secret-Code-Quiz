@@ -229,6 +229,14 @@
             padding: 15px;
             border-radius: 8px;
             letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: all;
+        }
+
+        .code-text:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.02);
         }
 
         .try-again {
@@ -259,6 +267,17 @@
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-5px); }
             75% { transform: translateX(5px); }
+        }
+
+        @keyframes slideDown {
+            from { 
+                opacity: 0; 
+                transform: translateX(-50%) translateY(-20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateX(-50%) translateY(0); 
+            }
         }
 
         .incomplete-message {
@@ -293,6 +312,12 @@
         </div>
         
         <div class="quiz-content" id="quizContent">
+            <div style="background: #e8f4fd; border: 2px solid #0066cc; border-radius: 10px; padding: 20px; margin-bottom: 30px; text-align: center;">
+                <p style="font-size: 1.2rem; font-weight: bold; color: #0066cc; margin: 0; line-height: 1.5;">
+                    💡 All answers are easily found on the official PASWM Murals website. Simply search Google for "PASWM Murals" to find their site.
+                </p>
+            </div>
+            
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
             </div>
@@ -301,7 +326,7 @@
             <div class="question-container active" id="question1">
                 <div class="question">
                     <div class="question-number">Question 1 of 5</div>
-                    <h3>What is the title of the first Mural Collection on page two of their mural collections?</h3>
+                    <h3>If you go to the Mural Collections page and click to page 2, what is the name of the first collection shown at the top of that page?</h3>
                     <div class="options">
                         <div class="option" data-value="A">A. Sports Peel And Stick Wall Murals</div>
                         <div class="option" data-value="B">B. Nursery Peel And Stick Wall Murals</div>
@@ -315,7 +340,7 @@
             <div class="question-container" id="question2">
                 <div class="question">
                     <div class="question-number">Question 2 of 5</div>
-                    <h3>What is the cost of the "A Colorful Owl Family Wall Mural" found on the last page of the "Animal Peel and Stick Wall Murals" mural collection?</h3>
+                    <h3>In the "Animal Peel and Stick Wall Murals" collection, find the first product called "A Colorful Owl Family Wall Mural". What is its price?</h3>
                     <div class="options">
                         <div class="option" data-value="A">A. $99.99</div>
                         <div class="option" data-value="B">B. $370.42</div>
@@ -329,7 +354,7 @@
             <div class="question-container" id="question3">
                 <div class="question">
                     <div class="question-number">Question 3 of 5</div>
-                    <h3>On the Create Your Own Mural page, there is a short video. In this video, when the narrator says "Watch our easy-to-follow installation videos", what is displayed on the screen?</h3>
+                    <h3>On the "Create Your Own Wall Mural" page, there's a video. When the narrator says the words "Watch our easy-to-follow installation videos", what appears on the screen at that moment?</h3>
                     <div class="options">
                         <div class="option" data-value="A">A. A Photo of five instructional DVDs laid out on a desk</div>
                         <div class="option" data-value="B">B. A Video of a Woman Applying a Peel and Stick Wall Mural</div>
@@ -343,7 +368,7 @@
             <div class="question-container" id="question4">
                 <div class="question">
                     <div class="question-number">Question 4 of 5</div>
-                    <h3>According to the FAQ, how many times can you remove and reapply Peel and Stick Wall Murals in an optimal environment?</h3>
+                    <h3>Visit the FAQ page to learn: How many times can you remove and reapply Peel and Stick Wall Murals in an optimal environment?</h3>
                     <div class="options">
                         <div class="option" data-value="A">A. Just once</div>
                         <div class="option" data-value="B">B. Up to 3 times</div>
@@ -357,8 +382,8 @@
             <div class="question-container" id="question5">
                 <div class="question">
                     <div class="question-number">Question 5 of 5</div>
-                    <h3>What is the phone number found on the Contact Us page of the PASWM Murals page?</h3>
-                    <input type="text" class="text-input" id="phoneInput" placeholder="Enter the phone number...">
+                    <h3>Please enter the phone number found on the "Contact Us" page.</h3>
+                    <input type="text" class="text-input" id="phoneInput" placeholder="Enter the phone number exactly as shown...">
                 </div>
             </div>
 
@@ -426,6 +451,73 @@
         // Get current question number
         function getCurrentQuestionNumber() {
             return currentQuestion;
+        }
+
+        // Copy code to clipboard
+        function copyCodeToClipboard() {
+            const code = 'PASWM100AMAZON';
+            
+            // Try modern clipboard API first
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(code).then(() => {
+                    showCopyAlert();
+                }).catch(() => {
+                    // Fallback if modern API fails
+                    fallbackCopyToClipboard(code);
+                });
+            } else {
+                // Fallback for older browsers
+                fallbackCopyToClipboard(code);
+            }
+        }
+
+        // Fallback copy method
+        function fallbackCopyToClipboard(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showCopyAlert();
+            } catch (err) {
+                console.error('Copy failed:', err);
+                alert('Copy failed. Please manually copy: ' + text);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        // Show copy success alert
+        function showCopyAlert() {
+            const alertDiv = document.createElement('div');
+            alertDiv.innerHTML = '✅ Code copied to clipboard!';
+            alertDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: #28a745;
+                color: white;
+                padding: 12px 24px;
+                border-radius: 8px;
+                font-weight: bold;
+                z-index: 1000;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                animation: slideDown 0.3s ease-out;
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            // Remove after 2 seconds
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 2000);
         }
 
         // Show error message
@@ -557,8 +649,8 @@
                     <p>You've demonstrated excellent knowledge of PASWM Murals!</p>
                     <div class="secret-code">
                         <h3>🎁 Your Secret Sweepstakes Bonus Code:</h3>
-                        <div class="code-text">PASWM100AMAZON</div>
-                        <p style="margin-top: 15px; font-size: 0.9rem;">Use this code to get extra entries in our sweepstakes giveaway!</p>
+                        <div class="code-text" onclick="copyCodeToClipboard()" title="Click to copy">PASWM100AMAZON</div>
+                        <p style="margin-top: 15px; font-size: 0.9rem;">Click the code above to copy it! Use this code to get extra entries in our sweepstakes giveaway!</p>
                     </div>
                     <a href="https://peelandstickwallmurals.com/" class="btn btn-primary" style="display: inline-block; text-decoration: none; margin-top: 20px;">
                         🏆 Enter Sweepstakes Now
