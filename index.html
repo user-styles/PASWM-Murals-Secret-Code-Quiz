@@ -45,8 +45,80 @@
             opacity: 0.9;
         }
 
+        .intro-section {
+            padding: 40px;
+            text-align: center;
+        }
+
+        .contest-banner {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .intro-content h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .intro-content p {
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .contest-details {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+            border-left: 5px solid #667eea;
+        }
+
+        .contest-details h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .contest-details ul {
+            text-align: left;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .contest-details li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .start-quiz-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 20px;
+        }
+
+        .start-quiz-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
         .quiz-content {
             padding: 40px;
+            display: none;
         }
 
         .question-container {
@@ -289,17 +361,27 @@
             text-align: center;
             font-weight: bold;
         }
+
+        @media (max-width: 768px) {
             .quiz-header h1 {
                 font-size: 2rem;
-        @media (max-width: 768px) {
+            }
             
-            .quiz-content {
+            .quiz-content, .intro-section {
                 padding: 20px;
             }
             
             .navigation {
                 flex-direction: column;
                 gap: 10px;
+            }
+
+            .intro-content h2 {
+                font-size: 1.5rem;
+            }
+
+            .intro-content p {
+                font-size: 1rem;
             }
         }
     </style>
@@ -311,6 +393,33 @@
             <p>Test your knowledge and unlock exclusive sweepstakes bonus entries!</p>
         </div>
         
+        <!-- Intro Section -->
+        <div class="intro-section" id="introSection">
+            <img src="https://cdn.shopify.com/s/files/1/0097/5893/3054/files/PASWM_Contest_Banner_for_Social_Media_copy_1.jpg?v=1748967473" alt="PASWM Murals $100 Amazon Gift Card Contest" class="contest-banner">
+            
+            <div class="intro-content">
+                <h2>🎁 $100 Amazon Gift Card Contest - Bonus Quiz</h2>
+                <p>This quiz is part of the PASWM Murals $100 Amazon Gift Card Contest. Complete it perfectly to unlock a secret bonus code worth <strong>25 extra entries</strong> in the sweepstakes!</p>
+                
+                <div class="contest-details">
+                    <h3>How It Works:</h3>
+                    <ul>
+                        <li>✅ Complete this 5-question quiz about PASWM Murals</li>
+                        <li>🎯 Get a perfect score to unlock your bonus code</li>
+                        <li>🔍 Search "PASWM Murals" on Google to find our homepage</li>
+                        <li>🎉 Enter the main contest and use your bonus code for 25 extra entries</li>
+                        <li>💰 One winner receives a $100 Amazon gift card</li>
+                    </ul>
+                </div>
+                
+                <p><strong>💡 All answers can be found by exploring the PASWM Murals website.</strong><br>
+                Just search Google for "PASWM Murals" to find their official site!</p>
+                
+                <button class="start-quiz-btn" onclick="startQuiz()">Start Quiz</button>
+            </div>
+        </div>
+        
+        <!-- Quiz Content -->
         <div class="quiz-content" id="quizContent">
             <div style="background: #e8f4fd; border: 2px solid #0066cc; border-radius: 10px; padding: 20px; margin-bottom: 30px; text-align: center;">
                 <p style="font-size: 1.2rem; font-weight: bold; color: #0066cc; margin: 0; line-height: 1.5;">
@@ -416,6 +525,13 @@
             4: 'B', // Up to 3 times
             5: 'phone' // Phone number validation
         };
+
+        // Start quiz function
+        function startQuiz() {
+            document.getElementById('introSection').style.display = 'none';
+            document.getElementById('quizContent').style.display = 'block';
+            initQuiz();
+        }
 
         // Initialize quiz
         function initQuiz() {
@@ -652,9 +768,11 @@
                         <div class="code-text" onclick="copyCodeToClipboard()" title="Click to copy">PASWM100AMAZON</div>
                         <p style="margin-top: 15px; font-size: 0.9rem;">Click the code above to copy it! Use this code to get extra entries in our sweepstakes giveaway!</p>
                     </div>
-                    <a href="https://peelandstickwallmurals.com/" class="btn btn-primary" style="display: inline-block; text-decoration: none; margin-top: 20px;">
-                        🏆 Enter Sweepstakes Now
-                    </a>
+                    <div style="background: #e8f4fd; border: 2px solid #0066cc; border-radius: 10px; padding: 20px; margin: 20px 0;">
+                        <h3 style="color: #0066cc; margin-bottom: 15px;">🏆 Enter Sweepstakes Now</h3>
+                        <p style="color: #0066cc; margin-bottom: 10px;">Search Google for <strong>"PASWM Murals"</strong> to find the homepage and enter the contest!</p>
+                        <p style="color: #555; font-size: 0.9rem;">Look for the contest entry form in the top banner to redeem your code.</p>
+                    </div>
                 `;
             } else {
                 resultMessage.innerHTML = `
@@ -691,8 +809,6 @@
 
         // Event listeners
         document.addEventListener('DOMContentLoaded', function() {
-            initQuiz();
-            
             document.getElementById('nextButton').addEventListener('click', nextQuestion);
             document.getElementById('prevButton').addEventListener('click', previousQuestion);
             document.getElementById('submitButton').addEventListener('click', submitQuiz);
